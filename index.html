@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anime Không Quảng Cáo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #1c1c1c, #2c2c2c);
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #ff4081;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 8px #000;
+    }
+    header h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: white;
+    }
+    .container {
+      padding: 1rem;
+      max-width: 800px;
+      margin: auto;
+    }
+    input, button {
+      padding: 0.6rem;
+      margin: 0.4rem 0;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    input {
+      background: #333;
+      color: white;
+    }
+    button {
+      background-color: #ff4081;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .video-card {
+      background: #2c2c2c;
+      padding: 1rem;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px #000;
+      margin-bottom: 1.5rem;
+    }
+    .video-title {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #ffb6c1;
+    }
+    .video-thumb {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+    video {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .delete-btn {
+      margin-top: 0.7rem;
+      background: #ff1744;
+      color: white;
+      border: none;
+      padding: 0.4rem;
+      width: 100%;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .search-box {
+      margin-bottom: 1rem;
+    }
+    .clear-all-btn {
+      background: #ff5722;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header><h2>🌸 Anime Không Quảng Cáo</h2></header>
+  <div class="container">
+    <input type="text" id="title" placeholder="Tên phim (VD: One Piece 1100)">
+    <input type="text" id="link" placeholder="Link video (.mp4 hoặc .m3u8)">
+    <input type="text" id="thumb" placeholder="Link ảnh bìa (có thể để trống)">
+    <button onclick="addVideo()">➕ Thêm phim</button>
+
+    <input type="text" id="search" class="search-box" placeholder="🔍 Tìm phim..." oninput="renderVideos()">
+    <button class="clear-all-btn" onclick="clearAll()">🧹 Xóa tất cả phim</button>
+
+    <div id="videoList"></div>
+  </div>
+
+  <script>
+    let videos = JSON.parse(localStorage.getItem('animeList')) || [];
+
+    function saveData() {
+      localStorage.setItem('animeList', JSON.stringify(videos));
+    }
+
+    function addVideo() {
+      const title = document.getElementById("title").value.trim();
+      const link = document.getElementById("link").value.trim();
+      const thumb = document.getElementById("thumb").value.trim();
+      if (!title || !link) return alert("Vui lòng nhập đủ thông tin!");
+
+      videos.push({ title, link, thumb });
+      saveData();
+      renderVideos();
+
+      document.getElementById("title").value = "";
+      document.getElementById("link").value = "";
+      document.getElementById("thumb").value = "";
+    }
+
+    function deleteVideo(index) {
+      if (confirm("Bạn có chắc muốn xóa phim này không?")) {
+        videos.splice(index, 1);
+        saveData();
+        renderVideos();
+      }
+    }
+
+    function clearAll() {
+      if (confirm("Xóa toàn bộ danh sách phim?")) {
+        videos = [];
+        saveData();
+        renderVideos();
+      }
+    }
+
+    function renderVideos() {
+      const list = document.getElementById("videoList");
+      list.innerHTML = "";
+      const search = document.getElementById("search").value.toLowerCase();
+
+      videos.forEach((video, index) => {
+        if (video.title.toLowerCase().includes(search)) {
+          const card = document.createElement("div");
+          card.className = "video-card";
+
+          const titleElem = document.createElement("div");
+          titleElem.className = "video-title";
+          titleElem.textContent = video.title;
+
+          if (video.thumb) {
+            const img = document.createElement("img");
+            img.src = video.thumb;
+            img.alt = "Ảnh bìa";
+            img.className = "video-thumb";
+            card.appendChild(img);
+          }
+
+          const vid = document.createElement("video");
+          vid.controls = true;
+          vid.src = video.link;
+
+          const delBtn = document.createElement("button");
+          delBtn.textContent = "🗑️ Xóa phim";
+          delBtn.className = "delete-btn";
+          delBtn.onclick = () => deleteVideo(index);
+
+          card.appendChild(titleElem);
+          card.appendChild(vid);
+          card.appendChild(delBtn);
+          list.appendChild(card);
+        }
+      });
+    }
+
+    renderVideos();
+  </script>
+</body>
+</html>
