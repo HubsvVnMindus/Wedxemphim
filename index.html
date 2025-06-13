@@ -6,89 +6,61 @@
     <title>Tải Mod Minecraft</title>
     <!-- Font Awesome cho icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
+        /* Custom styles để bổ sung */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateX(100%);
         }
 
-        body {
-            background-color: #f0f0f0;
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        /* Thanh điều hướng */
-        .navbar {
-            background-color: #333;
-            padding: 15px;
+        .toast.success {
+            background-color: #10b981;
         }
 
-        .hamburger {
-            display: inline-block;
-            cursor: pointer;
+        .toast.error {
+            background-color: #ef4444;
         }
 
+        .toast i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Hiệu ứng nút */
+        .btn {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Menu hamburger */
         .hamburger div {
             width: 30px;
             height: 4px;
             background-color: white;
             margin: 6px 0;
             transition: 0.4s;
-        }
-
-        .nav-menu {
-            display: none;
-            position: absolute;
-            top: 60px;
-            left: 0;
-            background-color: #333;
-            width: 100%;
-            padding: 20px;
-        }
-
-        .nav-menu.active {
-            display: block;
-        }
-
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            font-size: 18px;
-        }
-
-        .nav-menu a:hover {
-            background-color: #555;
-        }
-
-        /* Nội dung chính */
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .download-btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 18px;
-            transition: background-color 0.3s;
-        }
-
-        .download-btn:hover {
-            background-color: #218838;
         }
 
         /* Modal */
@@ -105,231 +77,107 @@
             z-index: 1000;
         }
 
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            width: 90%;
-            max-width: 400px;
-            position: relative;
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
         }
 
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .modal h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .modal input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .modal button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .modal button:hover {
-            background-color: #218838;
-        }
-
-        /* Admin Panel */
-        .admin-panel {
-            display: none;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 5px;
-            max-width: 800px;
-        }
-
-        .admin-panel h2 {
-            margin-bottom: 20px;
-        }
-
-        .admin-panel input[type="file"] {
-            margin: 10px 0;
-        }
-
-        /* Mod List */
-        .mod-list {
-            margin-top: 20px;
-        }
-
-        .mod-item {
-            background-color: white;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .mod-item a {
-            padding: 8px 15px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .mod-item a:hover {
-            background-color: #218838;
-        }
-
-        /* Search Bar */
-        .search-bar {
-            margin-bottom: 20px;
-        }
-
-        .search-bar input {
-            width: 100%;
-            max-width: 400px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            color: white;
-            display: flex;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            transform: translateX(100%);
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .toast.success {
-            background-color: #28a745;
-        }
-
-        .toast.error {
-            background-color: #dc3545;
-        }
-
-        .toast i {
-            margin-right: 10px;
-            font-size: 18px;
-        }
-
-        /* Responsive */
-        @media (min-width: 768px) {
-            .hamburger {
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .nav-menu {
+                position: absolute;
+                top: 64px;
+                left: 0;
+                width: 100%;
+                background-color: #1f2937;
+                flex-direction: column;
+                padding: 16px;
                 display: none;
             }
 
-            .nav-menu {
-                display: block;
-                position: static;
-                background-color: transparent;
-                padding: 0;
-            }
-
-            .nav-menu a {
-                display: inline-block;
-                padding: 15px;
+            .nav-menu.active {
+                display: flex;
             }
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 min-h-screen">
     <!-- Thanh điều hướng -->
-    <nav class="navbar">
-        <div class="hamburger" onclick="toggleMenu()">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <div class="nav-menu" id="navMenu">
-            <a href="#home">Trang chủ</a>
-            <a href="#mods">Danh sách Mod</a>
-            <a href="#guide">Hướng dẫn</a>
-            <a href="#account">Tài khoản</a>
-            <a href="#" onclick="openModal('loginModal')">Đăng nhập</a>
-            <a href="#" onclick="openModal('registerModal')">Đăng ký</a>
-            <a href="#contact">Liên hệ</a>
+    <nav class="bg-gray-900 text-white p-4 fixed w-full top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="hamburger cursor-pointer sm:hidden" onclick="toggleMenu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div class="nav-menu hidden sm:flex flex-col sm:flex-row sm:space-x-4" id="navMenu">
+                <a href="#home" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Trang chủ</a>
+                <a href="#mods" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Danh sách Mod</a>
+                <a href="#guide" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Hướng dẫn</a>
+                <a href="#account" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Tài khoản</a>
+                <a href="#" onclick="openModal('loginModal')" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition login-link">Đăng nhập</a>
+                <a href="#" onclick="openModal('registerModal')" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition register-link">Đăng ký</a>
+                <a href="#contact" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Liên hệ</a>
+                <a href="#" onclick="logout()" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition logout-link hidden">Đăng xuất</a>
+                <span class="px-4 py-2 text-gray-500 text-center font-semibold sm:text-gray-300 user-name hidden"></span>
+            </div>
         </div>
     </nav>
 
     <!-- Nội dung chính -->
-    <div class="container">
-        <h1>Tải Mod Minecraft</h1>
-        <p>Chọn mod yêu thích của bạn và bắt đầu trải nghiệm!</p>
-        <a href="https://example.com/mod-download" class="download-btn">Tải Mod Ngay</a>
+    <div class="container mx-auto pt-20 pb-10 px-4">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-6">Tải Mod Minecraft</h1>
+        <p class="text-base sm:text-lg text-gray-600 text-center mb-8">Chọn mod yêu thích và bắt đầu hành trình khám phá!</p>
+        <div class="text-center mb-10">
+            <a href="https://example.com/mod-download" class="btn bg-blue-600 text-white px-6 py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-blue-700">Tải Mod Ngay</a>
+        </div>
 
         <!-- Thanh tìm kiếm -->
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Tìm kiếm mod..." oninput="searchMods()">
+        <div class="search-bar mb-8 flex justify-center">
+            <div class="relative w-full max-w-md">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm mod..." oninput="searchMods()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
         </div>
 
         <!-- Admin Panel -->
-        <div class="admin-panel" id="adminPanel">
-            <h2>Bảng Quản Trị</h2>
-            <p>Thêm mod mới:</p>
-            <input type="text" id="modName" placeholder="Tên mod">
-            <input type="file" id="modFile" accept=".jar,.zip">
-            <button onclick="addMod()">Tải lên Mod</button>
+        <div class="admin-panel hidden bg-white p-6 rounded-lg shadow-lg mb-8" id="adminPanel">
+            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Bảng Quản Trị</h2>
+            <p class="text-gray-600 mb-4">Thêm mod mới:</p>
+            <input type="text" id="modName" placeholder="Tên mod" class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="url" id="modUrl" placeholder="Link MediaFire (hoặc tương tự)" class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <textarea id="modDescription" placeholder="Mô tả mod" class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
+            <input type="file" id="modImage" accept="image/*" class="w-full mb-4" required>
+            <button onclick="addMod()" class="btn bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 w-full">Tải lên Mod</button>
         </div>
 
         <!-- Danh sách Mod -->
         <div class="mod-list" id="modList">
-            <h2>Danh sách Mod</h2>
+            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Danh sách Mod</h2>
         </div>
     </div>
 
     <!-- Modal Đăng nhập -->
     <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('loginModal')">×</span>
-            <h2>Đăng nhập</h2>
-            <input type="text" id="loginUsername" placeholder="Tên đăng nhập" required>
-            <input type="password" id="loginPassword" placeholder="Mật khẩu" required>
-            <button onclick="login()">Đăng nhập</button>
+        <div class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-md w-11/12 sm:w-full relative">
+            <span class="close absolute top-4 right-4 text-2xl cursor-pointer text-gray-600 hover:text-gray-800" onclick="closeModal('loginModal')">×</span>
+            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Đăng nhập</h2>
+            <input type="text" id="loginUsername" placeholder="Tên đăng nhập" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="password" id="loginPassword" placeholder="Mật khẩu" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="login()" class="btn bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 w-full">Đăng nhập</button>
         </div>
     </div>
 
     <!-- Modal Đăng ký -->
     <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('registerModal')">×</span>
-            <h2>Đăng ký</h2>
-            <input type="text" id="registerUsername" placeholder="Tên đăng nhập" required>
-            <input type="email" id="registerEmail" placeholder="Email" required>
-            <input type="password" id="registerPassword" placeholder="Mật khẩu" required>
-            <input type="password" id="registerConfirmPassword" placeholder="Xác nhận mật khẩu" required>
-            <button onclick="register()">Đăng ký</button>
+        <div class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-md w-11/12 sm:w-full relative">
+            <span class="close absolute top-4 right-4 text-2xl cursor-pointer text-gray-600 hover:text-gray-800" onclick="closeModal('registerModal')">×</span>
+            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Đăng ký</h2>
+            <input type="text" id="registerUsername" placeholder="Tên đăng nhập" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="email" id="registerEmail" placeholder="Email" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="password" id="registerPassword" placeholder="Mật khẩu" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="password" id="registerConfirmPassword" placeholder="Xác nhận mật khẩu" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="register()" class="btn bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 w-full">Đăng ký</button>
         </div>
     </div>
 
@@ -338,7 +186,7 @@
 
     <script>
         let mods = JSON.parse(localStorage.getItem('mods')) || [];
-        let currentUser = null;
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
         function toggleMenu() {
             const menu = document.getElementById('navMenu');
@@ -363,38 +211,63 @@
             `;
             toastContainer.appendChild(toast);
 
-            // Show toast
             setTimeout(() => toast.classList.add('show'), 100);
-
-            // Auto hide after 3 seconds
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
 
+        function updateNavMenu() {
+            const loginLink = document.querySelector('.login-link');
+            const registerLink = document.querySelector('.register-link');
+            const logoutLink = document.querySelector('.logout-link');
+            const userName = document.querySelector('.user-name');
+
+            if (currentUser) {
+                loginLink.classList.add('hidden');
+                registerLink.classList.add('hidden');
+                logoutLink.classList.remove('hidden');
+                userName.classList.remove('hidden');
+                userName.textContent = `Xin chào, ${currentUser.username}`;
+                if (currentUser.isAdmin) {
+                    document.getElementById('adminPanel').classList.remove('hidden');
+                }
+            } else {
+                loginLink.classList.remove('hidden');
+                registerLink.classList.remove('hidden');
+                logoutLink.classList.add('hidden');
+                userName.classList.add('hidden');
+                document.getElementById('adminPanel').classList.add('hidden');
+            }
+        }
+
         function login() {
             const username = document.getElementById('loginUsername').value;
             const password = document.getElementById('loginPassword').value;
 
-            // Simulate login validation
             if (!username || !password) {
                 showToast('Vui lòng nhập đầy đủ thông tin!', 'error');
                 return;
             }
 
-            // Simulate admin login
             if (username === 'admin' && password === 'admin123') {
                 currentUser = { username, isAdmin: true };
-                document.getElementById('adminPanel').style.display = 'block';
-                closeModal('loginModal');
-                showToast('Đăng nhập admin thành công!', 'success');
             } else {
-                // Simulate regular user login (no real backend check)
                 currentUser = { username, isAdmin: false };
-                closeModal('loginModal');
-                showToast('Đăng nhập thành công!', 'success');
             }
+
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            closeModal('loginModal');
+            showToast(`Đăng nhập thành công! ${currentUser.isAdmin ? '(Admin)' : ''}`, 'success');
+            updateNavMenu();
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showToast('Đăng xuất thành công!', 'success');
+            updateNavMenu();
         }
 
         function register() {
@@ -403,7 +276,6 @@
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('registerConfirmPassword').value;
 
-            // Simulate registration validation
             if (!username || !email || !password || !confirmPassword) {
                 showToast('Vui lòng nhập đầy đủ thông tin!', 'error');
                 return;
@@ -414,9 +286,11 @@
                 return;
             }
 
-            // Simulate successful registration (no real backend)
+            currentUser = { username, isAdmin: false };
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
             closeModal('registerModal');
-            showToast('Đăng ký thành công!', 'success');
+            showToast('Đăng ký và đăng nhập thành công!', 'success');
+            updateNavMenu();
         }
 
         function addMod() {
@@ -426,20 +300,29 @@
             }
 
             const modName = document.getElementById('modName').value;
-            const fileInput = document.getElementById('modFile');
-            const file = fileInput.files[0];
+            const modUrl = document.getElementById('modUrl').value;
+            const modDescription = document.getElementById('modDescription').value;
+            const imageInput = document.getElementById('modImage');
+            const image = imageInput.files[0];
 
-            if (!modName || !file) {
-                showToast('Vui lòng nhập tên mod và chọn file!', 'error');
+            if (!modName || !modUrl || !image) {
+                showToast('Vui lòng nhập tên mod, link file, và chọn hình ảnh!', 'error');
                 return;
             }
 
-            // Simulate file upload
+            try {
+                new URL(modUrl);
+            } catch {
+                showToast('Link file không hợp lệ!', 'error');
+                return;
+            }
+
             const mod = {
                 id: Date.now(),
                 name: modName,
-                fileName: file.name,
-                url: URL.createObjectURL(file) // Mock file URL
+                description: modDescription || 'Không có mô tả',
+                url: modUrl,
+                imageUrl: URL.createObjectURL(image)
             };
 
             mods.push(mod);
@@ -447,27 +330,49 @@
             renderModList();
             showToast('Mod đã được thêm!', 'success');
             document.getElementById('modName').value = '';
-            fileInput.value = '';
+            document.getElementById('modUrl').value = '';
+            document.getElementById('modDescription').value = '';
+            imageInput.value = '';
+        }
+
+        function deleteMod(modId) {
+            if (!currentUser || !currentUser.isAdmin) {
+                showToast('Chỉ admin mới có thể xóa mod!', 'error');
+                return;
+            }
+
+            mods = mods.filter(mod => mod.id !== modId);
+            localStorage.setItem('mods', JSON.stringify(mods));
+            renderModList();
+            showToast('Mod đã được xóa!', 'success');
         }
 
         function renderModList(filteredMods = mods) {
             const modList = document.getElementById('modList');
-            modList.innerHTML = '<h2>Danh sách Mod</h2>';
+            modList.innerHTML = '<h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Danh sách Mod</h2>';
 
             if (filteredMods.length === 0) {
-                modList.innerHTML += '<p>Không tìm thấy mod nào.</p>';
+                modList.innerHTML += '<p class="text-gray-600">Không tìm thấy mod nào.</p>';
                 return;
             }
 
+            const modGrid = document.createElement('div');
+            modGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
             filteredMods.forEach(mod => {
                 const modItem = document.createElement('div');
-                modItem.className = 'mod-item';
+                modItem.className = 'bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition';
                 modItem.innerHTML = `
-                    <span>${mod.name} (${mod.fileName})</span>
-                    <a href="${mod.url}" download>Tải xuống</a>
+                    <img src="${mod.imageUrl}" alt="${mod.name}" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-base sm:text-lg font-semibold text-gray-800">${mod.name}</h3>
+                    <p class="text-gray-600 text-sm mb-4">${mod.description}</p>
+                    <div class="flex space-x-2">
+                        <a href="${mod.url}" target="_blank" class="btn bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">Tải xuống</a>
+                        ${currentUser && currentUser.isAdmin ? `<button onclick="deleteMod(${mod.id})" class="btn bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700">Xóa</button>` : ''}
+                    </div>
                 `;
-                modList.appendChild(modItem);
+                modGrid.appendChild(modItem);
             });
+            modList.appendChild(modGrid);
         }
 
         function searchMods() {
@@ -478,21 +383,21 @@
             renderModList(filteredMods);
         }
 
-        // Đóng modal khi click bên ngoài
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
             }
         }
 
-        // Giả lập chức năng tải mod chính
         document.querySelector('.download-btn').addEventListener('click', (e) => {
             e.preventDefault();
             showToast('Bắt đầu tải mod! (Link giả lập)', 'success');
         });
 
-        // Load danh sách mod khi trang tải
-        window.onload = () => renderModList();
+        window.onload = () => {
+            updateNavMenu();
+            renderModList();
+        };
     </script>
 </body>
-          </html>
+            </html>
