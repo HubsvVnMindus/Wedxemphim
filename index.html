@@ -1,185 +1,498 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anime Không Quảng Cáo</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #1c1c1c, #2c2c2c);
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #ff4081;
-      padding: 1rem;
-      text-align: center;
-      box-shadow: 0 2px 8px #000;
-    }
-    header h2 {
-      margin: 0;
-      font-size: 1.8rem;
-      color: white;
-    }
-    .container {
-      padding: 1rem;
-      max-width: 800px;
-      margin: auto;
-    }
-    input, button {
-      padding: 0.6rem;
-      margin: 0.4rem 0;
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
-    }
-    input {
-      background: #333;
-      color: white;
-    }
-    button {
-      background-color: #ff4081;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .video-card {
-      background: #2c2c2c;
-      padding: 1rem;
-      border-radius: 15px;
-      box-shadow: 0 2px 8px #000;
-      margin-bottom: 1.5rem;
-    }
-    .video-title {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-      color: #ffb6c1;
-    }
-    .video-thumb {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
-    }
-    video {
-      width: 100%;
-      border-radius: 10px;
-    }
-    .delete-btn {
-      margin-top: 0.7rem;
-      background: #ff1744;
-      color: white;
-      border: none;
-      padding: 0.4rem;
-      width: 100%;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .search-box {
-      margin-bottom: 1rem;
-    }
-    .clear-all-btn {
-      background: #ff5722;
-      margin-top: 0.5rem;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tải Mod Minecraft</title>
+    <!-- Font Awesome cho icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f0f0;
+        }
+
+        /* Thanh điều hướng */
+        .navbar {
+            background-color: #333;
+            padding: 15px;
+        }
+
+        .hamburger {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 30px;
+            height: 4px;
+            background-color: white;
+            margin: 6px 0;
+            transition: 0.4s;
+        }
+
+        .nav-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background-color: #333;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .nav-menu.active {
+            display: block;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        .nav-menu a:hover {
+            background-color: #555;
+        }
+
+        /* Nội dung chính */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .download-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .modal button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .modal button:hover {
+            background-color: #218838;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            max-width: 800px;
+        }
+
+        .admin-panel h2 {
+            margin-bottom: 20px;
+        }
+
+        .admin-panel input[type="file"] {
+            margin: 10px 0;
+        }
+
+        /* Mod List */
+        .mod-list {
+            margin-top: 20px;
+        }
+
+        .mod-item {
+            background-color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mod-item a {
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .mod-item a:hover {
+            background-color: #218838;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            color: white;
+            display: flex;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateX(100%);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background-color: #28a745;
+        }
+
+        .toast.error {
+            background-color: #dc3545;
+        }
+
+        .toast i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .hamburger {
+                display: none;
+            }
+
+            .nav-menu {
+                display: block;
+                position: static;
+                background-color: transparent;
+                padding: 0;
+            }
+
+            .nav-menu a {
+                display: inline-block;
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header><h2>🌸 Anime Không Quảng Cáo</h2></header>
-  <div class="container">
-    <input type="text" id="title" placeholder="Tên phim (VD: One Piece 1100)">
-    <input type="text" id="link" placeholder="Link video (.mp4 hoặc .m3u8)">
-    <input type="text" id="thumb" placeholder="Link ảnh bìa (có thể để trống)">
-    <button onclick="addVideo()">➕ Thêm phim</button>
+    <!-- Thanh điều hướng -->
+    <nav class="navbar">
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="#home">Trang chủ</a>
+            <a href="#mods">Danh sách Mod</a>
+            <a href="#guide">Hướng dẫn</a>
+            <a href="#account">Tài khoản</a>
+            <a href="#" onclick="openModal('loginModal')">Đăng nhập</a>
+            <a href="#" onclick="openModal('registerModal')">Đăng ký</a>
+            <a href="#contact">Liên hệ</a>
+        </div>
+    </nav>
 
-    <input type="text" id="search" class="search-box" placeholder="🔍 Tìm phim..." oninput="renderVideos()">
-    <button class="clear-all-btn" onclick="clearAll()">🧹 Xóa tất cả phim</button>
+    <!-- Nội dung chính -->
+    <div class="container">
+        <h1>Tải Mod Minecraft</h1>
+        <p>Chọn mod yêu thích của bạn và bắt đầu trải nghiệm!</p>
+        <a href="https://example.com/mod-download" class="download-btn">Tải Mod Ngay</a>
 
-    <div id="videoList"></div>
-  </div>
+        <!-- Thanh tìm kiếm -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm mod..." oninput="searchMods()">
+        </div>
 
-  <script>
-    let videos = JSON.parse(localStorage.getItem('animeList')) || [];
+        <!-- Admin Panel -->
+        <div class="admin-panel" id="adminPanel">
+            <h2>Bảng Quản Trị</h2>
+            <p>Thêm mod mới:</p>
+            <input type="text" id="modName" placeholder="Tên mod">
+            <input type="file" id="modFile" accept=".jar,.zip">
+            <button onclick="addMod()">Tải lên Mod</button>
+        </div>
 
-    function saveData() {
-      localStorage.setItem('animeList', JSON.stringify(videos));
-    }
+        <!-- Danh sách Mod -->
+        <div class="mod-list" id="modList">
+            <h2>Danh sách Mod</h2>
+        </div>
+    </div>
 
-    function addVideo() {
-      const title = document.getElementById("title").value.trim();
-      const link = document.getElementById("link").value.trim();
-      const thumb = document.getElementById("thumb").value.trim();
-      if (!title || !link) return alert("Vui lòng nhập đủ thông tin!");
+    <!-- Modal Đăng nhập -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">×</span>
+            <h2>Đăng nhập</h2>
+            <input type="text" id="loginUsername" placeholder="Tên đăng nhập" required>
+            <input type="password" id="loginPassword" placeholder="Mật khẩu" required>
+            <button onclick="login()">Đăng nhập</button>
+        </div>
+    </div>
 
-      videos.push({ title, link, thumb });
-      saveData();
-      renderVideos();
+    <!-- Modal Đăng ký -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">×</span>
+            <h2>Đăng ký</h2>
+            <input type="text" id="registerUsername" placeholder="Tên đăng nhập" required>
+            <input type="email" id="registerEmail" placeholder="Email" required>
+            <input type="password" id="registerPassword" placeholder="Mật khẩu" required>
+            <input type="password" id="registerConfirmPassword" placeholder="Xác nhận mật khẩu" required>
+            <button onclick="register()">Đăng ký</button>
+        </div>
+    </div>
 
-      document.getElementById("title").value = "";
-      document.getElementById("link").value = "";
-      document.getElementById("thumb").value = "";
-    }
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
 
-    function deleteVideo(index) {
-      if (confirm("Bạn có chắc muốn xóa phim này không?")) {
-        videos.splice(index, 1);
-        saveData();
-        renderVideos();
-      }
-    }
+    <script>
+        let mods = JSON.parse(localStorage.getItem('mods')) || [];
+        let currentUser = null;
 
-    function clearAll() {
-      if (confirm("Xóa toàn bộ danh sách phim?")) {
-        videos = [];
-        saveData();
-        renderVideos();
-      }
-    }
-
-    function renderVideos() {
-      const list = document.getElementById("videoList");
-      list.innerHTML = "";
-      const search = document.getElementById("search").value.toLowerCase();
-
-      videos.forEach((video, index) => {
-        if (video.title.toLowerCase().includes(search)) {
-          const card = document.createElement("div");
-          card.className = "video-card";
-
-          const titleElem = document.createElement("div");
-          titleElem.className = "video-title";
-          titleElem.textContent = video.title;
-
-          if (video.thumb) {
-            const img = document.createElement("img");
-            img.src = video.thumb;
-            img.alt = "Ảnh bìa";
-            img.className = "video-thumb";
-            card.appendChild(img);
-          }
-
-          const vid = document.createElement("video");
-          vid.controls = true;
-          vid.src = video.link;
-
-          const delBtn = document.createElement("button");
-          delBtn.textContent = "🗑️ Xóa phim";
-          delBtn.className = "delete-btn";
-          delBtn.onclick = () => deleteVideo(index);
-
-          card.appendChild(titleElem);
-          card.appendChild(vid);
-          card.appendChild(delBtn);
-          list.appendChild(card);
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('active');
         }
-      });
-    }
 
-    renderVideos();
-  </script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showToast(message, type) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                ${message}
+            `;
+            toastContainer.appendChild(toast);
+
+            // Show toast
+            setTimeout(() => toast.classList.add('show'), 100);
+
+            // Auto hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Simulate login validation
+            if (!username || !password) {
+                showToast('Vui lòng nhập đầy đủ thông tin!', 'error');
+                return;
+            }
+
+            // Simulate admin login
+            if (username === 'admin' && password === 'admin123') {
+                currentUser = { username, isAdmin: true };
+                document.getElementById('adminPanel').style.display = 'block';
+                closeModal('loginModal');
+                showToast('Đăng nhập admin thành công!', 'success');
+            } else {
+                // Simulate regular user login (no real backend check)
+                currentUser = { username, isAdmin: false };
+                closeModal('loginModal');
+                showToast('Đăng nhập thành công!', 'success');
+            }
+        }
+
+        function register() {
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            // Simulate registration validation
+            if (!username || !email || !password || !confirmPassword) {
+                showToast('Vui lòng nhập đầy đủ thông tin!', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showToast('Mật khẩu xác nhận không khớp!', 'error');
+                return;
+            }
+
+            // Simulate successful registration (no real backend)
+            closeModal('registerModal');
+            showToast('Đăng ký thành công!', 'success');
+        }
+
+        function addMod() {
+            if (!currentUser || !currentUser.isAdmin) {
+                showToast('Chỉ admin mới có thể thêm mod!', 'error');
+                return;
+            }
+
+            const modName = document.getElementById('modName').value;
+            const fileInput = document.getElementById('modFile');
+            const file = fileInput.files[0];
+
+            if (!modName || !file) {
+                showToast('Vui lòng nhập tên mod và chọn file!', 'error');
+                return;
+            }
+
+            // Simulate file upload
+            const mod = {
+                id: Date.now(),
+                name: modName,
+                fileName: file.name,
+                url: URL.createObjectURL(file) // Mock file URL
+            };
+
+            mods.push(mod);
+            localStorage.setItem('mods', JSON.stringify(mods));
+            renderModList();
+            showToast('Mod đã được thêm!', 'success');
+            document.getElementById('modName').value = '';
+            fileInput.value = '';
+        }
+
+        function renderModList(filteredMods = mods) {
+            const modList = document.getElementById('modList');
+            modList.innerHTML = '<h2>Danh sách Mod</h2>';
+
+            if (filteredMods.length === 0) {
+                modList.innerHTML += '<p>Không tìm thấy mod nào.</p>';
+                return;
+            }
+
+            filteredMods.forEach(mod => {
+                const modItem = document.createElement('div');
+                modItem.className = 'mod-item';
+                modItem.innerHTML = `
+                    <span>${mod.name} (${mod.fileName})</span>
+                    <a href="${mod.url}" download>Tải xuống</a>
+                `;
+                modList.appendChild(modItem);
+            });
+        }
+
+        function searchMods() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredMods = mods.filter(mod => 
+                mod.name.toLowerCase().includes(searchTerm)
+            );
+            renderModList(filteredMods);
+        }
+
+        // Đóng modal khi click bên ngoài
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Giả lập chức năng tải mod chính
+        document.querySelector('.download-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('Bắt đầu tải mod! (Link giả lập)', 'success');
+        });
+
+        // Load danh sách mod khi trang tải
+        window.onload = () => renderModList();
+    </script>
 </body>
-</html>
+          </html>
