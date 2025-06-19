@@ -1,403 +1,143 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tải Mod Minecraft</title>
-    <!-- Font Awesome cho icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom styles để bổ sung */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 8px;
-            color: white;
-            display: flex;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            transform: translateX(100%);
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .toast.success {
-            background-color: #10b981;
-        }
-
-        .toast.error {
-            background-color: #ef4444;
-        }
-
-        .toast i {
-            margin-right: 10px;
-            font-size: 18px;
-        }
-
-        /* Hiệu ứng nút */
-        .btn {
-            transition: all 0.3s ease;
-            transform: translateY(0);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Menu hamburger */
-        .hamburger div {
-            width: 30px;
-            height: 4px;
-            background-color: white;
-            margin: 6px 0;
-            transition: 0.4s;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        /* Smooth scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-            .nav-menu {
-                position: absolute;
-                top: 64px;
-                left: 0;
-                width: 100%;
-                background-color: #1f2937;
-                flex-direction: column;
-                padding: 16px;
-                display: none;
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tải Mod Minecraft</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      background-color: #4caf50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .mod {
+      background-color: #2a2a2a;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+    }
+    .category {
+      font-size: 14px;
+      color: #ccc;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <!-- Thanh điều hướng -->
-    <nav class="bg-gray-900 text-white p-4 fixed w-full top-0 z-50 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="hamburger cursor-pointer sm:hidden" onclick="toggleMenu()">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <div class="nav-menu hidden sm:flex flex-col sm:flex-row sm:space-x-4" id="navMenu">
-                <a href="#home" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Trang chủ</a>
-                <a href="#mods" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Danh sách Mod</a>
-                <a href="#guide" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Hướng dẫn</a>
-                <a href="#account" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Tài khoản</a>
-                <a href="#" onclick="openModal('loginModal')" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition login-link">Đăng nhập</a>
-                <a href="#" onclick="openModal('registerModal')" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition register-link">Đăng ký</a>
-                <a href="#contact" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition">Liên hệ</a>
-                <a href="#" onclick="logout()" class="px-4 py-2 hover:bg-gray-700 rounded-lg transition logout-link hidden">Đăng xuất</a>
-                <span class="px-4 py-2 text-gray-500 text-center font-semibold sm:text-gray-300 user-name hidden"></span>
-            </div>
-        </div>
-    </nav>
+<body>
+  <div class="container">
+    <h1>Thêm Mod Minecraft</h1>
 
-    <!-- Nội dung chính -->
-    <div class="container mx-auto pt-20 pb-10 px-4">
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-6">Tải Mod Minecraft</h1>
-        <p class="text-base sm:text-lg text-gray-600 text-center mb-8">Chọn mod yêu thích và bắt đầu hành trình khám phá!</p>
-        <div class="text-center mb-10">
-            <a href="https://example.com/mod-download" class="btn bg-blue-600 text-white px-6 py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-blue-700">Tải Mod Ngay</a>
-        </div>
+    <input id="modName" placeholder="Tên mod" />
+    <input id="modDesc" placeholder="Mô tả mod" />
+    <select id="modCategory">
+      <option value="PvP">PvP</option>
+      <option value="Shader">Shader</option>
+      <option value="Tiện ích">Tiện ích</option>
+    </select>
+    <input id="modUrl" placeholder="Link tải (.mcaddon)" />
+    <button onclick="addMod()">Thêm mod</button>
 
-        <!-- Thanh tìm kiếm -->
-        <div class="search-bar mb-8 flex justify-center">
-            <div class="relative w-full max-w-md">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm mod..." oninput="searchMods()" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pl-10">
-                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-            </div>
-        </div>
+    <hr />
+    <h2>Danh sách Mod:</h2>
+    <div id="mod-list"></div>
+  </div>
 
-        <!-- Admin Panel -->
-        <div class="admin-panel hidden bg-white p-6 rounded-lg shadow-lg mb-8" id="adminPanel">
-            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Bảng Quản Trị</h2>
-            <p class="text-gray-600 mb-4">Thêm mod mới:</p>
-            <input type="text" id="modName" placeholder="Tên mod" class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <input type="url" id="modUrl" placeholder="Link MediaFire (hoặc tương tự)" class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <textarea id="modDescription" placeholder="Mô tả mod" class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" rows="4"></textarea>
-            <input type="file" id="modImage" accept="image/*" class="w-full mb-4" required>
-            <button onclick="addMod()" class="btn bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 w-full">Tải lên Mod</button>
-        </div>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
-        <!-- Danh sách Mod -->
-        <div class="mod-list" id="modList">
-            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Danh sách Mod</h2>
-        </div>
-    </div>
+  <script>
+    // 🔧 THAY THẾ bằng thông tin Firebase thật của bạn
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
 
-    <!-- Modal Đăng nhập -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-md w-11/12 sm:w-full relative">
-            <span class="close absolute top-4 right-4 text-2xl cursor-pointer text-gray-600 hover:text-gray-800" onclick="closeModal('loginModal')">×</span>
-            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Đăng nhập</h2>
-            <input type="text" id="loginUsername" placeholder="Tên đăng nhập" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <input type="password" id="loginPassword" placeholder="Mật khẩu" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="login()" class="btn bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 w-full">Đăng nhập</button>
-        </div>
-    </div>
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-    <!-- Modal Đăng ký -->
-    <div id="registerModal" class="modal">
-        <div class="modal-content bg-white p-6 rounded-lg shadow-lg max-w-md w-11/12 sm:w-full relative">
-            <span class="close absolute top-4 right-4 text-2xl cursor-pointer text-gray-600 hover:text-gray-800" onclick="closeModal('registerModal')">×</span>
-            <h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Đăng ký</h2>
-            <input type="text" id="registerUsername" placeholder="Tên đăng nhập" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <input type="email" id="registerEmail" placeholder="Email" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <input type="password" id="registerPassword" placeholder="Mật khẩu" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <input type="password" id="registerConfirmPassword" placeholder="Xác nhận mật khẩu" required class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="register()" class="btn bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 w-full">Đăng ký</button>
-        </div>
-    </div>
+    function addMod() {
+      const name = document.getElementById("modName").value;
+      const description = document.getElementById("modDesc").value;
+      const category = document.getElementById("modCategory").value;
+      const fileUrl = document.getElementById("modUrl").value;
 
-    <!-- Toast Container -->
-    <div id="toastContainer"></div>
+      if (!name || !description || !fileUrl) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+      }
 
-    <script>
-        let mods = JSON.parse(localStorage.getItem('mods')) || [];
-        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+      const newMod = {
+        name,
+        description,
+        category,
+        fileUrl
+      };
 
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            menu.classList.toggle('active');
+      const newKey = db.ref().child("mods").push().key;
+      db.ref("mods/" + newKey).set(newMod).then(() => {
+        alert("Đã thêm mod!");
+        document.getElementById("modName").value = "";
+        document.getElementById("modDesc").value = "";
+        document.getElementById("modUrl").value = "";
+      });
+    }
+
+    function renderMods() {
+      db.ref("mods").on("value", snapshot => {
+        const list = document.getElementById("mod-list");
+        list.innerHTML = "";
+
+        const mods = snapshot.val();
+        if (!mods) {
+          list.innerHTML = "<p>Chưa có mod nào!</p>";
+          return;
         }
 
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function showToast(message, type) {
-            const toastContainer = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `
-                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-times-circle'}"></i>
-                ${message}
-            `;
-            toastContainer.appendChild(toast);
-
-            setTimeout(() => toast.classList.add('show'), 100);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        function updateNavMenu() {
-            const loginLink = document.querySelector('.login-link');
-            const registerLink = document.querySelector('.register-link');
-            const logoutLink = document.querySelector('.logout-link');
-            const userName = document.querySelector('.user-name');
-
-            if (currentUser) {
-                loginLink.classList.add('hidden');
-                registerLink.classList.add('hidden');
-                logoutLink.classList.remove('hidden');
-                userName.classList.remove('hidden');
-                userName.textContent = `Xin chào, ${currentUser.username}`;
-                if (currentUser.isAdmin) {
-                    document.getElementById('adminPanel').classList.remove('hidden');
-                }
-            } else {
-                loginLink.classList.remove('hidden');
-                registerLink.classList.remove('hidden');
-                logoutLink.classList.add('hidden');
-                userName.classList.add('hidden');
-                document.getElementById('adminPanel').classList.add('hidden');
-            }
-        }
-
-        function login() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!username || !password) {
-                showToast('Vui lòng nhập đầy đủ thông tin!', 'error');
-                return;
-            }
-
-            if (username === 'admin' && password === 'admin123') {
-                currentUser = { username, isAdmin: true };
-            } else {
-                currentUser = { username, isAdmin: false };
-            }
-
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            closeModal('loginModal');
-            showToast(`Đăng nhập thành công! ${currentUser.isAdmin ? '(Admin)' : ''}`, 'success');
-            updateNavMenu();
-        }
-
-        function logout() {
-            currentUser = null;
-            localStorage.removeItem('currentUser');
-            showToast('Đăng xuất thành công!', 'success');
-            updateNavMenu();
-        }
-
-        function register() {
-            const username = document.getElementById('registerUsername').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-
-            if (!username || !email || !password || !confirmPassword) {
-                showToast('Vui lòng nhập đầy đủ thông tin!', 'error');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showToast('Mật khẩu xác nhận không khớp!', 'error');
-                return;
-            }
-
-            currentUser = { username, isAdmin: false };
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            closeModal('registerModal');
-            showToast('Đăng ký và đăng nhập thành công!', 'success');
-            updateNavMenu();
-        }
-
-        function addMod() {
-            if (!currentUser || !currentUser.isAdmin) {
-                showToast('Chỉ admin mới có thể thêm mod!', 'error');
-                return;
-            }
-
-            const modName = document.getElementById('modName').value;
-            const modUrl = document.getElementById('modUrl').value;
-            const modDescription = document.getElementById('modDescription').value;
-            const imageInput = document.getElementById('modImage');
-            const image = imageInput.files[0];
-
-            if (!modName || !modUrl || !image) {
-                showToast('Vui lòng nhập tên mod, link file, và chọn hình ảnh!', 'error');
-                return;
-            }
-
-            try {
-                new URL(modUrl);
-            } catch {
-                showToast('Link file không hợp lệ!', 'error');
-                return;
-            }
-
-            const mod = {
-                id: Date.now(),
-                name: modName,
-                description: modDescription || 'Không có mô tả',
-                url: modUrl,
-                imageUrl: URL.createObjectURL(image)
-            };
-
-            mods.push(mod);
-            localStorage.setItem('mods', JSON.stringify(mods));
-            renderModList();
-            showToast('Mod đã được thêm!', 'success');
-            document.getElementById('modName').value = '';
-            document.getElementById('modUrl').value = '';
-            document.getElementById('modDescription').value = '';
-            imageInput.value = '';
-        }
-
-        function deleteMod(modId) {
-            if (!currentUser || !currentUser.isAdmin) {
-                showToast('Chỉ admin mới có thể xóa mod!', 'error');
-                return;
-            }
-
-            mods = mods.filter(mod => mod.id !== modId);
-            localStorage.setItem('mods', JSON.stringify(mods));
-            renderModList();
-            showToast('Mod đã được xóa!', 'success');
-        }
-
-        function renderModList(filteredMods = mods) {
-            const modList = document.getElementById('modList');
-            modList.innerHTML = '<h2 class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4">Danh sách Mod</h2>';
-
-            if (filteredMods.length === 0) {
-                modList.innerHTML += '<p class="text-gray-600">Không tìm thấy mod nào.</p>';
-                return;
-            }
-
-            const modGrid = document.createElement('div');
-            modGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
-            filteredMods.forEach(mod => {
-                const modItem = document.createElement('div');
-                modItem.className = 'bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition';
-                modItem.innerHTML = `
-                    <img src="${mod.imageUrl}" alt="${mod.name}" class="w-full h-40 object-cover rounded-lg mb-4">
-                    <h3 class="text-base sm:text-lg font-semibold text-gray-800">${mod.name}</h3>
-                    <p class="text-gray-600 text-sm mb-4">${mod.description}</p>
-                    <div class="flex space-x-2">
-                        <a href="${mod.url}" target="_blank" class="btn bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">Tải xuống</a>
-                        ${currentUser && currentUser.isAdmin ? `<button onclick="deleteMod(${mod.id})" class="btn bg-red-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-700">Xóa</button>` : ''}
-                    </div>
-                `;
-                modGrid.appendChild(modItem);
-            });
-            modList.appendChild(modGrid);
-        }
-
-        function searchMods() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const filteredMods = mods.filter(mod => 
-                mod.name.toLowerCase().includes(searchTerm)
-            );
-            renderModList(filteredMods);
-        }
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
-        }
-
-        document.querySelector('.download-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            showToast('Bắt đầu tải mod! (Link giả lập)', 'success');
+        Object.values(mods).forEach(mod => {
+          const modDiv = document.createElement("div");
+          modDiv.className = "mod";
+          modDiv.innerHTML = `
+            <h3>${mod.name}</h3>
+            <div class="category">Phân loại: ${mod.category}</div>
+            <p>${mod.description}</p>
+            <button onclick="window.open('${mod.fileUrl}', '_blank')">Tải về</button>
+          `;
+          list.appendChild(modDiv);
         });
+      });
+    }
 
-        window.onload = () => {
-            updateNavMenu();
-            renderModList();
-        };
-    </script>
+    renderMods();
+  </script>
 </body>
-            </html>
+</html>
